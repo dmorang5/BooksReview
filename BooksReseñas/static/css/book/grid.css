@@ -1,0 +1,97 @@
+/* Estilos base */
+main{
+    z-index:9999;
+    margin-top: 60px;
+}
+.book-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    border-color: #8DA9C4;
+}
+
+.book-item {
+    flex: 0 0 calc(33.33% - 20px);
+    max-width: calc(33.33% - 20px);
+    margin-bottom: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #8DA9C4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.book-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+.book-details {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.book-details img {
+    max-width: 100px;
+    margin-right: 20px;
+}
+
+.details {
+    flex: 1;
+}
+
+.details a{
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #8DA9C4;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.details a:hover {
+    background-color: #0056b3;
+}
+
+.review-item .add-review-btn,
+.review-item .dl-eliminar-btn {
+    margin-top: 10px;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 3px;
+}
+.review-item .add-review-btn:hover,
+.review-item .dl-eliminar-btn:hover {
+    background-color: #0056b3;
+}
+
+
+/* Media queries para hacer el diseño responsive */
+@media screen and (max-width: 768px) {
+    main{
+        z-index:99999;
+        margin-top: 120px;  /*Es para que se vea y no lo tape el nav pero aun tapa;(*/
+    }
+    .book-item {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+
+}
+
+@media screen and (max-width: 480px) {
+    main{
+        z-index:99999;
+        margin-top: 100px;
+    }
+    .book-item {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+}
+

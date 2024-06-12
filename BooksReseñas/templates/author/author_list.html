@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}BooksReview | Autor{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/author/table_author.css' %}">
+{% endblock %}
+{% block content %}
+    <main>
+        <h1>Lista de Autores</h1>
+        <div class="page">
+            <a href="#" id="btnAbrirModal_add">Crear Autor</a>
+        </div>
+        <div class="container">
+            <table class="author-table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Foto</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for author in authors %}
+                <tr>
+                    <td>{{ author.name }}</td>
+                    <td>{{ author.description }}</td>
+                    <td><img src="{{ author.cover_image.url }}" alt="{{ author.name }}" style="max-width: 100px;"/></td>
+                    <td>
+                        <a href="#" class="act-author-btn" data-id="{{ author.id }}" data-name="{{ author.name }}" data-description="{{ author.description }}" data-cover-image="{{ author.cover_image.url }}">✍🏻</a>
+                        <a href="#" data-id="{{ author.id }}" class="dl-author-btn">❌</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No hay autores disponibles.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        </div>
+    </main>
+{% endblock %}
+
+{% block js %}
+    <!-- Modal para agregar/actualizar autor -->
+    <div class="fondo_transparente" id="ventanaModal">
+        <div class="modal">
+            <div class="modal_cerrar" id="btnCerrarModal">
+                <span>x</span>
+            </div>
+            <div class="modal_titulo">Autor</div>
+            <form id="authorForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="author_id" id="author_id">
+                {{ form.as_p }}
+                <div class="modal_botones">
+                    <input type="submit" value="Guardar" class="boton">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal para eliminar autor -->
+    <div class="fondo_transparente" id="ventanaModalEliminar">
+        <div class="modal">
+            <div class="modal_titulo">¿Estás seguro de eliminar este autor?</div>
+            <div class="modal_botones">
+                <a href="#" id="btnEliminarAutor" class="btnEliminarAutor">Eliminar</a>
+                <button id="btnCancelarEliminar" class="boton">Cancelar</button>
+            </div>
+        </div>
+    </div>
+     <script>
+        const btnAbrirModal_add = document.getElementById("btnAbrirModal_add");
+        const ventanaModal = document.getElementById("ventanaModal");
+        const btnCerrarModal = document.getElementById("btnCerrarModal");
+        
+        btnAbrirModal_add.addEventListener("click", e => {
+            ventanaModal.style.display = "flex";
+            document.getElementById("authorForm").reset();  // Resetear el formulario
+            document.getElementById("author_id").value = "";  // Limpiar el campo hidden del ID del autor
+            return false;
+        });
+        const btnsAbrirModal_upt = document.querySelectorAll(".act-author-btn");
+        btnsAbrirModal_upt.forEach(btn => {
+            btn.addEventListener("click", e => {
+                ventanaModal.style.display = "flex";
+                document.getElementById("author_id").value = e.target.getAttribute("data-id");
+                document.getElementById("id_name").value = e.target.getAttribute("data-name");
+                document.getElementById("id_description").value = e.target.getAttribute("data-description");
+                return false;
+            });
+        });
+        btnCerrarModal.addEventListener("click", e => {
+            ventanaModal.style.display = "none";
+            return false;
+        });
+        
+        const btnsEliminarAutor = document.querySelectorAll(".dl-author-btn");
+        const ventanaModalEliminar = document.getElementById("ventanaModalEliminar");
+        const btnEliminarAutor = document.getElementById("btnEliminarAutor");
+        const btnCancelarEliminar = document.getElementById("btnCancelarEliminar");
+        
+        btnsEliminarAutor.forEach(btn => {
+            btn.addEventListener("click", e => {
+                const authorId = e.target.getAttribute("data-id");
+                if (authorId) {
+                    const url = "{% url 'author_delete' 0 %}".replace("/0/", `/${authorId}/`);
+                    btnEliminarAutor.setAttribute("href", url);
+                    ventanaModalEliminar.style.display = "flex";
+                } else {
+                    console.error("authorId está vacío");
+                }
+            });
+        });
+        btnCancelarEliminar.addEventListener("click", e => {
+            ventanaModalEliminar.style.display = "none";
+        });
+     </script>
+{% endblock %}
+

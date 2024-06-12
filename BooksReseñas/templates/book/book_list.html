@@ -1,0 +1,171 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/book/grid.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/book/table_books.css' %}">
+{% endblock %}
+{% block content %}
+    {% if not request.user.is_superuser %}
+        <main>
+            <div class="book-grid">
+                {% for book in books %}
+                <div class="book-item">
+                    <div class="book-details">
+                        {% if book.cover_libro %}
+                            <img src="{{ book.cover_libro.url }}" alt="{{ book.title }}">
+                        {% else %}
+                            Sin imagen de portada
+                        {% endif %}
+                        <div class="details">
+                            <h3><strong>{{ book.title }}</strong> </h3>
+                            <p><strong>Autor:</strong> {{ book.author }}</p>
+                            <a style="background-color: #8DA9C4" href="{% url 'book_detail' book.id %}" class="add-review-btn">Ver más</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    {% endif %}
+    {% if request.user.is_superuser %}
+        <main>
+            <h1>Lista de Libros</h1>
+            <div class="page">
+                <a href="#" id="btnAbrirModal_add">Crear Libro</a>
+            </div>
+            <div class="container">
+                <table class="book-table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Sinopsis</th>
+                            <th>Año</th>
+                            <th>Autor</th>
+                            <th>Editorial</th>
+                            <th>Portada</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in books %}
+                        <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.synopsis }}</td>
+                            <td>{{ book.year|date:"Y" }}</td>
+                            <td>{{ book.author.name }}</td>
+                            <td>{{ book.publishing.name }}</td>
+                            <td>
+                                {% if book.cover_libro %}
+                                    <img src="{{ book.cover_libro.url }}" alt="{{ book.title }}" style="max-width: 100px;">
+                                {% else %}
+                                    Sin imagen de portada
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="#" class="act-book-btn" data-id="{{ book.id }}" data-title="{{ book.title }}"
+                                    data-synopsis="{{ book.synopsis }}" data-year="{{ book.year|date:"Y" }}"
+                                    data-author="{{ book.author.id }}" data-publishing="{{ book.publishing.id }}"
+                                    data-cover-libro="{{ book.cover_libro }}">✍🏻</a>
+                                <a href="#" data-id="{{ book.id }}" class="dl-book-btn">❌</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7">No hay libros disponibles.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    {% endif %}
+{% endblock %}
+{% block js %}
+    <div class="fondo_transparente" id="ventanaModal">
+        <div class="modal">
+            <div class="modal_cerrar" id="btnCerrarModal">
+                <span>x</span>
+            </div>
+            <div class="modal_titulo">Libros</div>
+            <form id="authorForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="book_id" id="book_id">
+                {{ form.as_p }}
+                <div class="modal_botones">
+                    <input type="submit" value="Guardar" class="boton">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal para agregar/actualizar libro -->
+    
+    
+    <!-- Modal para eliminar libro -->
+    <div class="fondo_transparente" id="ventanaModalEliminar">
+        <div class="modal">
+            <div class="modal_titulo">¿Estás seguro de eliminar este libro?</div>
+            <div class="modal_botones">
+                <a href="#" id="btnEliminarLibro" class="btnEliminarLibro">Eliminar</a>
+                <button id="btnCancelarEliminar" class="boton">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const btnAbrirModal_add = document.getElementById("btnAbrirModal_add");
+        const ventanaModal = document.getElementById("ventanaModal");
+        const btnCerrarModal = document.getElementById("btnCerrarModal");
+    
+        btnAbrirModal_add.addEventListener("click", e => {
+            ventanaModal.style.display = "flex";
+            document.getElementById("bookForm").reset();  // Resetear el formulario
+            document.getElementById("book_id").value = "";  // Limpiar el campo hidden del ID del libro
+            return false;
+        });
+    
+        const btnsAbrirModal_upt = document.querySelectorAll(".act-book-btn");
+        btnsAbrirModal_upt.forEach(btn => {
+            btn.addEventListener("click", e => {
+                ventanaModal.style.display = "flex";
+                document.getElementById("book_id").value = e.target.getAttribute("data-id");
+                document.getElementById("id_title").value = e.target.getAttribute("data-title");
+                document.getElementById("id_synopsis").value = e.target.getAttribute("data-synopsis");
+                document.getElementById("id_year").value = e.target.getAttribute("data-year");
+                document.getElementById("id_author").value = e.target.getAttribute("data-author");
+                document.getElementById("id_publishing").value = e.target.getAttribute("data-publishing");
+                return false;
+            });
+        });
+    
+        btnCerrarModal.addEventListener("click", e => {
+            ventanaModal.style.display = "none";
+            return false;
+        });
+    
+        const btnsEliminarLibro = document.querySelectorAll(".dl-book-btn");
+        const ventanaModalEliminar = document.getElementById("ventanaModalEliminar");
+        const btnEliminarLibro = document.getElementById("btnEliminarLibro");
+        const btnCancelarEliminar = document.getElementById("btnCancelarEliminar");
+    
+        btnsEliminarLibro.forEach(btn => {
+            btn.addEventListener("click", e => {
+                const bookId = e.target.getAttribute("data-id");
+                if (bookId) {
+                    const url = "{% url 'book_delete' 0 %}".replace("/0/", `/${bookId}/`);
+                    btnEliminarLibro.setAttribute("href", url);
+                    ventanaModalEliminar.style.display = "flex";
+                } else {
+                    console.error("bookId está vacío");
+                }
+            });
+        });
+    
+        btnCancelarEliminar.addEventListener("click", e => {
+            ventanaModalEliminar.style.display = "none";
+        });
+    </script>
+{% endblock %}
+
+

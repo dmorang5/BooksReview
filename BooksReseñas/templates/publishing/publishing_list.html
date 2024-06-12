@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}BooksReview | Publisher{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/publisher/table_publisher.css' %}">
+{% endblock %}
+{% block content %}
+<main>
+    <h1>Lista de Editoriales</h1>
+    <div class="page">
+        <a href="#" id="btnAbrirModal_add">Crear Publisher</a>
+    </div>
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Logo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher in publishers %}
+                    <tr>
+                        <td>{{ publisher.name }}</td>
+                        <td>{{ publisher.description }}</td>
+                        <td><img src="{{ publisher.logo.url }}" alt="{{ publisher.name }}" style="max-width: 100px;"/></td>
+                        <td>
+                            <a style="color:black" href="#" class="act-publisher-btn" data-id="{{ publisher.id }}" 
+                               data-name="{{ publisher.name }}" data-description="{{ publisher.description }}" 
+                               data-logo="{{ publisher.logo.url }}">✍🏻</a>
+                            <a style="color:black" href="#" data-id="{{ publisher.id }}" class="dl-publisher-btn">❌</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="3">No hay publishers disponibles.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
+
+{% block js %}
+    <!-- Modal for adding/updating publisher -->
+    <div class="fondo_transparente" id="ventanaModal">
+        <div class="modal">
+            <div class="modal_cerrar" id="btnCerrarModal">
+                <span>x</span>
+            </div>
+            <div class="modal_titulo">Editorial</div>
+            <form id="publisherForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" name="publisher_id" id="publisher_id">
+                {{ form.as_p }}
+                <div class="modal_botones">
+                    <input type="submit" value="Guardar" class="boton">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal for deleting publisher -->
+    <div class="fondo_transparente" id="ventanaModalEliminar">
+        <div class="modal">
+            <div class="modal_titulo">¿Estás seguro de eliminar este publisher?</div>
+            <div class="modal_botones">
+                <a href="#" id="btnEliminarPublisher" class="btnEliminarPublisher">Eliminar</a>
+                <button id="btnCancelarEliminar" class="boton">Cancelar</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const btnAbrirModal_add = document.getElementById("btnAbrirModal_add");
+        const btnsAbrirModal_upt = document.querySelectorAll(".act-publisher-btn");
+        const btnsEliminarPublisher = document.querySelectorAll(".dl-publisher-btn");
+        const ventanaModal = document.getElementById("ventanaModal");
+        const ventanaModalEliminar = document.getElementById("ventanaModalEliminar");
+        const btnCerrarModal = document.getElementById("btnCerrarModal");
+        const btnEliminarPublisher = document.getElementById("btnEliminarPublisher");
+        const btnCancelarEliminar = document.getElementById("btnCancelarEliminar");
+
+        btnAbrirModal_add.addEventListener("click", e => {
+            ventanaModal.style.display = "flex";
+            document.getElementById("publisherForm").reset();
+            document.getElementById("publisher_id").value = "";
+            return false;
+        });
+
+        btnsAbrirModal_upt.forEach(btn => {
+            btn.addEventListener("click", e => {
+                ventanaModal.style.display = "flex";
+                document.getElementById("publisher_id").value = e.target.getAttribute("data-id");
+                document.getElementById("id_name").value = e.target.getAttribute("data-name");
+                document.getElementById("id_description").value = e.target.getAttribute("data-description");
+                return false;
+            });
+        });
+
+        btnCerrarModal.addEventListener("click", e => {
+            ventanaModal.style.display = "none";
+            return false;
+        });
+
+        btnsEliminarPublisher.forEach(btn => {
+            btn.addEventListener("click", e => {
+                const publisherId = e.target.getAttribute("data-id");
+                if (publisherId) {
+                    const url = "{% url 'publisher_delete' 0 %}".replace("/0/", `/${publisherId}/`);
+                    btnEliminarPublisher.setAttribute("href", url);
+                    ventanaModalEliminar.style.display = "flex";
+                } else {
+                    console.error("publisherId está vacío");
+                }
+            });
+        });
+
+        btnCancelarEliminar.addEventListener("click", e => {
+            ventanaModalEliminar.style.display = "none";
+            return false;
+        });
+    </script>
+{% endblock %}

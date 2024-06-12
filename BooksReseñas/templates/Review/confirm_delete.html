@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}BooksReview | Confirmar Eliminación{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Confirmar Eliminación</h1>
+        <p>¿Estás seguro de que deseas eliminar esta reseña?</p>
+        <p><strong>Libro:</strong> {{ review.book.title }}</p>
+        <p><strong>Comentario:</strong> {{ review.comment }}</p>
+        <p><strong>Calificación:</strong>
+            {% for i in review.rating|get_range %}
+                ⭐
+            {% endfor %}
+        </p>
+        <form method="post">{% csrf_token %}
+            <button type="submit" class="dl-eliminar-btn">Eliminar</button>
+            <a href="{% url 'review_list' %}" class="cancelar-btn">Cancelar</a>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+<title>{% block title %}BooksReview | Reseñas{% endblock %}</title>
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/book/grid.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/review/reviewlist.css' %}">
+{% endblock %}
+
+{% block content %}
+     <div class="container">
+        <h1>Reseñas</h1>
+        <div class="review-list">
+            {% for review in review %}
+                <div class="review-item">
+                    <h2>{{ review.book.title }}</h2>
+                    <p><strong>Autor:</strong> {{ review.book.author }}</p>
+                    <p><strong>Usuario:</strong> {{ review.user.username }}</p>
+                    <p><strong>Fecha de publicación:</strong> {{ review.pub_date|date:"d M Y" }}</p>
+                    <p><strong>Comentario:</strong> {{ review.comment }}</p>
+                    <p><strong>Calificación:</strong> 
+                        {% for i in review.rating|get_range %}
+                            ⭐
+                        {% endfor %}
+                    </p>
+                    <a href="{% url 'upt_review' review.book.id %}" class="add-review-btn">Actualizar reseña</a>
+                    <a href="{% url 'delete_review' review.book.id %}" class="dl-eliminar-btn">Eliminar reseña</a>
+                </div>
+            {% empty %}
+                <p>No hay reseñas disponibles.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

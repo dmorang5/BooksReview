@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}BooksReview | Crear Autor{% endblock %}
+{% block content %}
+    <h1>Crear Autor</h1>
+    <button id="openModal">Crear Autor</button>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="authorForm" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Guardar">
+            </form>
+        </div>
+    </div>
+{% endblock %}

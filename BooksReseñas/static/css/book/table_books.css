@@ -1,0 +1,103 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    z-index: 9999;
+    margin-top: 60px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #8DA9C4;
+}
+
+.page {
+    text-align: left;
+    padding-left: 136px;
+    margin-bottom: 20px;
+}
+
+.page a {
+    background-color: #8DA9C4;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.page a:hover {
+    background-color: #4d7599;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.book-table {
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.book-table th, .book-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.book-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.book-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.book-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.book-table img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.book-table a {
+    color: #4a90e2;
+    text-decoration: none;
+    padding: 3px 4px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.book-table a:hover {
+    background-color: #e9f5ff;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.book-table .act-book-btn {
+    background-color: rgba(43, 230, 43, 0.8);
+    color: #fff;
+}
+
+.book-table .dl-book-btn {
+    background-color: #ff685a;
+    color: #fff;
+}

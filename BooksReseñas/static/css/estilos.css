@@ -1,0 +1,50 @@
+/* estilos.css */
+.main{
+    z-index: 9999;
+    margin-top: 60px;
+}
+/* Estilos para el formulario de agregar reseña */
+.form-field {
+    margin-bottom: 20px;
+}
+
+.form-field label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-field input[type="text"],
+.form-field input[type="number"],
+.form-field select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-field textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-field button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.form-field button:hover {
+    background-color: #0056b3;
+}
+

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}BooksReview | Editar Perfil{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile/profile.css' %}">
+{% endblock %}
+{% block content %}
+    <h1>Editar Perfil</h1>
+    <form method="post" enctype="multipart/form-data">
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        {% csrf_token %}
+        <p><input type="submit" value="Save changes"></p>
+    </form>
+{% endblock %}

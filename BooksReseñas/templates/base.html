@@ -1,0 +1,84 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <title>{% block title %}BooksReview | Home{% endblock %}</title>
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <link href="{% static "css/nav.css" %}" rel="stylesheet">
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+{% block nav %}
+    <header class="header">
+        <nav class="navbar">
+            <a href="{% url "book_list" %}" class="nav-logo">BooksReview</a>
+            {% if request.user.is_authenticated %}
+                <ul class="nav-menu">
+                    <li {% if section == "inicio" %}class="nav-link"{% endif %}>
+                        <a href="{% url "book_list" %}">Home</a>
+                    </li>
+                    {% if not request.user.is_superuser %}
+                        <li {% if section == "reseñas" %}class="nav-link"{% endif %}>
+                            <a href="{% url "review_list" %}">Reseñas</a>
+                        </li>
+                     {% endif %}   
+                     {% if request.user.is_superuser %}
+                        <li {% if section == "autor" %}class="nav-link"{% endif %}>
+                            <a href="{% url "author_list" %}">Autor</a>
+                         </li>
+                        <li {% if section == "editorial" %}class="nav-link"{% endif %}>
+                            <a href="{% url "publisher_list" %}">Editoriales</a>
+                        </li>
+                     {% endif %}    
+                        {% if not request.user.is_superuser %}
+                            <li {% if section == "perfil" %}class="nav-link"{% endif %}>
+                                <a href="{% url "profile" %}">Perfil</a>
+                            </li>
+                        {% endif %}
+                </ul>
+            {% endif %}
+                <span class="user">
+                    <form id="logout-form" method="post" action="{% url 'logout' %}" style="display:none;">
+                       {% csrf_token %}
+                   </form>
+                    {% if request.user.is_authenticated%}
+                        Hola
+                        {% if not request.user.is_superuser %}
+                            <a class="usuario" href="{% url "profile" %}">{{ request.user.first_name|default:request.user.username }},</a>
+                        {% else %}
+                            {{ request.user.first_name|default:request.user.username }},
+                        {% endif %}    
+                       <a href="#" onclick="document.getElementById('logout-form').submit();">Cerrar Sesión</a>
+                    {% else %}
+                       <a href="{% url "login" %}">Iniciar Sesión</a>
+                    {% endif %}
+                </span>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    {% if messages %}
+         <ul class="messages">
+             {% for message in messages %}
+                 <li class="{{ message.tags }}">
+                    {{ message|safe }}
+                    <a href="#" class="close">x</a>
+                 </li>
+             {% endfor %}
+         </ul>
+     {% endif %}
+{% endblock %}
+     
+{% block content %}
+    <div id="content"></div>
+{% endblock %}
+
+</body>
+{% block js %}
+{% endblock %}
+<script src="{% static 'js/nav.js' %}"></script>
+</html>

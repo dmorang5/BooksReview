@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}BooksReview | Log-in{% endblock %}
+{% block css %}
+    <link href="{% static "css/login/login.css" %}" rel="stylesheet">
+    <link href="{% static "css/login/normalize.css" %}" rel="stylesheet">
+{% endblock %}
+{% block nav %}{% endblock %}
+{% block content %}
+     <div class="contenedor-formulario contenedor">
+        <div class="imagen-formulario"></div>
+        <form method="post" class="formulario">
+            {% csrf_token %}
+            <div class="input-group">
+                <div class="texto-formulario">
+                    <h2>BooksReviews</h2>
+                    <p>Powered by PANAS S.A</p>
+                </div>
+                <div class="input">
+                    <label for="usuario">Usuario</label>
+                    {{ form.username }}
+                </div>
+                <div class="input">
+                    <label for="contraseña">Contraseña</label>
+                    {{ form.password }}
+                </div>
+                <div class="password-olvidada">
+                    <a href="{% url "password_reset" %}">¿Olvidaste tu contraseña?</a>
+                </div>
+                <div class="input">
+                    <input type="submit" value="Login">
+                </div>
+                <div class="password-olvidada">
+                     <a href="{% url "register" %}">No tienes cuenta?</a><a href="{% url "register" %}">Registrate</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        {% if form.errors %}
+            alert("Usuario o contraseña incorrectos. Intenta de nuevo;)");
+        {% endif %}
+    </script>
+{% endblock %}

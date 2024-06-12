@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Confirmar Eliminación{% endblock %}
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>¿Estás seguro de que quieres eliminar este autor?</p>
+        <input type="submit" value="Eliminar">
+        <a href="{% url 'publisher_list' %}">Cancelar</a>
+    </form>
+
+{% endblock %}

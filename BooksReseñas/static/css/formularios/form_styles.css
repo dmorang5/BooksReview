@@ -1,0 +1,107 @@
+/**ESTILOS DE TABLA **/
+.author-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.author-table th, .author-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.author-table th {
+    background-color: #f2f2f2;
+}
+
+.act-author-btn, .dl-author-btn {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 4px;
+    text-decoration: none;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.act-author-btn {
+    background-color: #007bff;
+}
+
+.dl-author-btn {
+    background-color: #dc3545;
+}
+.fondo_transparente {
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.226);
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    display: none;
+}
+
+.modal {
+    background: linear-gradient(0deg, white 88%, #8DA9C4 12%);
+    width: 450px;
+    height: 575px;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 30px;
+    z-index: 9999;
+}
+
+.modal_cerrar {
+    background: white;
+    position: absolute;
+    right: -15px;
+    color: #8DA9C4;
+    top: -13px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.modal_titulo {
+    color: white;
+    font-size: 40px;
+}
+
+.modal_mensaje {
+    padding: 10px 30px;
+}
+
+.modal_botones {
+    width: 100%;
+    background: white;
+    border-top: white 1px;
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    color:#8DA9C4;
+}
+
+.boton {
+    background: #8DA9C4;
+    padding: 8px 30px;
+    color: black;
+    text-decoration: none;
+    border-radius: 25px;
+    border: 1px solid black;
+}
+
+.boton:hover {
+    background: #8DA9C4;
+    color: white;
+}
+

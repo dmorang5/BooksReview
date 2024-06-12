@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+<title>{% block title %}BooksReview | {{ book.title }}{% endblock %}</title>
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/book/grid.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/review/reviewlist.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
+{% endblock %}
+
+{% block content %}
+<a href="{% url 'book_list' %}">Regresar</a>    
+    <div class="container">
+        <h1>{{ book.title }}</h1>
+        <p><strong>Autor:</strong> {{ book.author }}</p>
+        <p><strong>Sinopsis:</strong> {{ book.synopsis }}</p>
+        <p><strong>Fecha:</strong> {{ book.year }}</p>
+        <p><strong>Editorial:</strong> {{ book.publishing }}</p>
+        <img src="{{ book.cover_libro.url }}" alt="{{ book.title }} cover" style="max-width: 100px; border-radius: 10px">
+        <a href="{% url 'add_review' book.id%}" class="add-review-btn">Añadir reseña</a>
+        <h2>Reseñas</h2>
+        <div class="review-list">
+            {% for review in reviews %}
+                <div class="review-item">
+                    <p><strong>Usuario:</strong> {{ review.user.username }}</p>
+                    <p><strong>Fecha de publicación:</strong> {{ review.pub_date|date:"d M Y" }}</p>
+                    <p><strong>Comentario:</strong> {{ review.comment }}</p>
+                    <p><strong>Calificación:</strong> 
+                        {% for i in review.rating|get_range %}
+                            ⭐
+                        {% endfor %}
+                    </p>
+                </div>
+            {% empty %}
+                <p>No hay reseñas disponibles para este libro.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <div class="fondo_transparente" id="ventanaModal">
+        <div class="modal">
+            <div class="modal_cerrar" id="btnCerrarModal">
+                <span>x</span>
+            </div>
+            <div class="modal_titulo">Libros</div>
+            <form method="post" class="review-form">
+                {% csrf_token %}
+                <div class="form-field">
+                    {{ form.comment.label_tag }}
+                    {{ form.comment }}
+                </div>
+                <div class="form-field">
+                    {{ form.rating.label_tag }}
+                    {{ form.rating }}
+                </div>
+                <button type="submit" class="btn-submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+    <script>
+    const btnAbrirModal_add = document.getElementById("btnAbrirModal_add");
+    const ventanaModal = document.getElementById("ventanaModal");
+    const btnCerrarModal = document.getElementById("btnCerrarModal");
+
+    btnAbrirModal_add.addEventListener("click", e => {
+    console.log("Clic en el botón 'Agregar reseña'");
+    ventanaModal.style.display = "flex";
+    document.getElementById("reviewForm").reset();  
+    document.getElementById("review_id").value = "";  
+    return false;
+});
+
+    btnCerrarModal.addEventListener("click", e => {
+        ventanaModal.style.display = "none";
+        return false;
+    });
+</script>
+{% endblock %}

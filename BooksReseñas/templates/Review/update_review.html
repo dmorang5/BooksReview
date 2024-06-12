@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+<title>{% block title %}BooksReview | Actualizar reseña{% endblock %}</title>
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="review-container">
+        <h2>Actualizar Reseña</h2>
+        <form method="post" class="review-form">
+            {% csrf_token %}
+            <div class="form-field">
+                <label for="id_comment">Comentario:</label>
+                {{ form.comment }}
+            </div>
+            <div class="form-field">
+                <label for="id_rating">Rating:</label>
+                {{ form.rating }}
+            </div>
+            <button type="submit" class="btn-submit">Enviar</button>
+        </form>
+    </div>
+{% endblock %}
