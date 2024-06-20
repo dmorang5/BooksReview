@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 ]
 
 ROOT_URLCONF = 'BooksReseñas.urls'
@@ -83,7 +84,7 @@ DATABASES = {
             'NAME': 'BooksReview',
             'USER': '',
             'PASSWORD': '',
-            'HOST': 'LAPTOP-0TFDH0A6\SQLEXPRESS',
+            'HOST': 'LENOVO_AMD',
             'PORT': '',
 
             'OPTIONS': {

@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
+{% load form_tags %}
 {% load static %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/book/grid.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/book/table_books.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/campos_form.css' %}">
 {% endblock %}
 {% block content %}
     {% if not request.user.is_superuser %}
@@ -92,7 +94,30 @@
             <form id="authorForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="book_id" id="book_id">
-                {{ form.as_p }}
+                <div class="form-field">
+                    <label for="id_titulo">Titulo:</label>
+                    {{ form.title|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_sinopsis">Sinopsis:</label>
+                    {{ form.synopsis|add_class:"small-textfield" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_anio">Año:</label>
+                    {{ form.year|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_autor">Autor:</label>
+                    {{ form.author|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_editorial">Editorial:</label>
+                    {{ form.publishing|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_portada">Portada:</label>
+                    {{ form.cover_libro|add_class:"form-input" }}
+                </div>
                 <div class="modal_botones">
                     <input type="submit" value="Guardar" class="boton">
                 </div>

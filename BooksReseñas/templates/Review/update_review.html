@@ -3,6 +3,8 @@
 <title>{% block title %}BooksReview | Actualizar reseña{% endblock %}</title>
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/review/star.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 {% endblock %}
 
 {% block content %}
@@ -15,10 +17,20 @@
                 {{ form.comment }}
             </div>
             <div class="form-field">
-                <label for="id_rating">Rating:</label>
-                {{ form.rating }}
+                <label for="id_rating">Calificación:</label>
+                <div class="rating-stars" data-rating="{{ form.rating.value }}">
+                    <i class="fa fa-star" data-index="1"></i>
+                    <i class="fa fa-star" data-index="2"></i>
+                    <i class="fa fa-star" data-index="3"></i>
+                    <i class="fa fa-star" data-index="4"></i>
+                    <i class="fa fa-star" data-index="5"></i>
+                </div>
+                <input type="hidden" name="rating" id="id_rating" value="{{ form.rating.value }}">
             </div>
             <button type="submit" class="btn-submit">Enviar</button>
         </form>
     </div>
+{% endblock %}
+{% block js %}
+    <script src="{% static 'js/star.js' %}"></script>
 {% endblock %}

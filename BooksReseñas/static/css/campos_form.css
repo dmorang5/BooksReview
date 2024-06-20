@@ -1,0 +1,27 @@
+/* styles.css */
+.form-field {
+    margin-bottom: 15px;
+}
+
+.form-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.modal_botones {
+    text-align: right;
+}
+
+.small-textfield {
+    width: 100px; /* Tamaño deseado */
+    height: 50px; /* Altura deseada */
+}

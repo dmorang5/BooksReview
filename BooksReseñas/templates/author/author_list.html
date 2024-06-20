@@ -1,9 +1,11 @@
 {% extends "base.html" %}
+{% load form_tags %}
 {% load static %}
 {% block title %}BooksReview | Autor{% endblock %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/author/table_author.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/campos_form.css' %}">
 {% endblock %}
 {% block content %}
     <main>
@@ -53,8 +55,18 @@
             <div class="modal_titulo">Autor</div>
             <form id="authorForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="author_id" id="author_id">
-                {{ form.as_p }}
+                <div class="form-field">
+                    <label for="id_name">Nombre:</label>
+                    {{ form.name|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_description">Descripcion:</label>
+                    {{ form.description|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_cover_image">Foto:</label>
+                    {{ form.cover_image|add_class:"form-input" }}
+                </div>
                 <div class="modal_botones">
                     <input type="submit" value="Guardar" class="boton">
                 </div>

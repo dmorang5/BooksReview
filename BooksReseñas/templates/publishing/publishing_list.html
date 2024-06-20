@@ -1,15 +1,17 @@
 {% extends "base.html" %}
+{% load form_tags %}
 {% load static %}
 {% block title %}BooksReview | Publisher{% endblock %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/publisher/table_publisher.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/campos_form.css' %}">
 {% endblock %}
 {% block content %}
 <main>
     <h1>Lista de Editoriales</h1>
     <div class="page">
-        <a href="#" id="btnAbrirModal_add">Crear Publisher</a>
+        <a href="#" id="btnAbrirModal_add">Crear Editorial</a>
     </div>
     <div class="container">
         <table class="table">
@@ -55,8 +57,18 @@
             <div class="modal_titulo">Editorial</div>
             <form id="publisherForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="hidden" name="publisher_id" id="publisher_id">
-                {{ form.as_p }}
+                <div class="form-field">
+                    <label for="id_name">Nombre:</label>
+                    {{ form.name|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_description">Descripción:</label>
+                    {{ form.description|add_class:"form-input" }}
+                </div>
+                <div class="form-field">
+                    <label for="id_logo">Logo:</label>
+                    {{ form.logo|add_class:"form-input" }}
+                </div>
                 <div class="modal_botones">
                     <input type="submit" value="Guardar" class="boton">
                 </div>
@@ -75,7 +87,6 @@
     </div>
     <script>
         const btnAbrirModal_add = document.getElementById("btnAbrirModal_add");
-        const btnsAbrirModal_upt = document.querySelectorAll(".act-publisher-btn");
         const btnsEliminarPublisher = document.querySelectorAll(".dl-publisher-btn");
         const ventanaModal = document.getElementById("ventanaModal");
         const ventanaModalEliminar = document.getElementById("ventanaModalEliminar");
@@ -89,7 +100,8 @@
             document.getElementById("publisher_id").value = "";
             return false;
         });
-
+        
+        const btnsAbrirModal_upt = document.querySelectorAll(".act-publisher-btn");
         btnsAbrirModal_upt.forEach(btn => {
             btn.addEventListener("click", e => {
                 ventanaModal.style.display = "flex";

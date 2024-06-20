@@ -1,36 +1,50 @@
+from crum import get_current_user
+
 from django.db import models
 from django.db.models import Avg
 from django.conf import settings
 from django.utils import timezone
-
-class Author(models.Model):
+from models import BaseModel
+class Author(BaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField()
     cover_image = models.ImageField(upload_to='author/covers/', blank=True, null=True)
 
     def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
         if not self.cover_image:
             self.cover_image = 'author/covers/default_cover.jpg'  # Ruta de la imagen por defecto
-        super().save(*args, **kwargs)
+        super(Author, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
 
-class Publishing(models.Model):
+class Publishing(BaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     logo = models.ImageField(upload_to='publisher_logos/', blank=True, null=True)
 
     def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
         if not self.logo:
             self.logo = 'publisher_logos/default_logo.jpg'  # Ruta de la imagen por defecto
-        super().save(*args, **kwargs)
+        super(Publishing, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
 
 
-class Book(models.Model):
+class Book(BaseModel):
     title = models.CharField(max_length=255)
     synopsis = models.TextField()
     year = models.DateField(blank=True, null=True, default=timezone.now)
@@ -42,9 +56,15 @@ class Book(models.Model):
         return self.review_set.aggregate(Avg('rating'))['rating__avg']
 
     def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user is not None:
+            if not self.pk:
+                self.user_creation = user
+            else:
+                self.user_updated = user
         if not self.cover_libro:
-            self.cover_libro = 'books/default_cover.jpg'  # Ruta de la imagen por defecto
-        super().save(*args, **kwargs)
+            self.cover_image = 'books/default_cover.jpg'  # Ruta de la imagen por defecto
+        super(Book, self).save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.title} {self.year}'
