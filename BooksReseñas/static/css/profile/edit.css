@@ -1,0 +1,47 @@
+body {
+    margin:0;
+    padding:0;
+    font-family: 'Roboto', sans-serif;
+}
+.container{
+    z-index:9999;
+
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+/* Estilos para el formulario */
+h1 {
+    color: #8DA9C4;
+    text-align: center;
+}
+/* Estilos para los campos de formulario */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Estilos para el botón de enviar */
+input[type="submit"] {
+    background-color: #8DA9C4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Estilos para el botón de enviar al pasar el cursor */
+input[type="submit"]:hover {
+    background-color: rgba(141, 169, 196, 0.52);
+}

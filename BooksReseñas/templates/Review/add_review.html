@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-<title>{% block title %}BooksReview | Añadir reseña{% endblock %}</title>
+{% block title %}BooksReview | Añadir reseña{% endblock %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/review/star.css' %}">
@@ -8,28 +8,29 @@
 {% endblock %}
 
 {% block content %}
-    <div class="review-container" style="z-index:9999;
-    margin-top: 60px;">
-        <h2>Agregar Reseña</h2>
-        <form method="post" class="review-form">
-            {% csrf_token %}
-            <div class="form-field">
-                <label for="id_comment">Comentario:</label>
-                {{ form.comment }}
-            </div>
-            <div class="form-field">
-                <label for="id_rating">Calificación:</label>
-                <div class="rating-stars" data-rating="{{ form.rating.value }}">
-                    <i class="fa fa-star" data-index="1"></i>
-                    <i class="fa fa-star" data-index="2"></i>
-                    <i class="fa fa-star" data-index="3"></i>
-                    <i class="fa fa-star" data-index="4"></i>
-                    <i class="fa fa-star" data-index="5"></i>
+    <div class="review-container">
+        <div class="formu-review">
+            <h2>Agregar Reseña</h2>
+            <form method="post" class="review-form">
+                {% csrf_token %}
+                <div class="form-field">
+                    <label for="id_comment">Comentario:</label>
+                    {{ form.comment }}
                 </div>
-                <input type="hidden" name="rating" id="id_rating" value="{{ form.rating.value }}">
-            </div>
-            <button type="submit" class="btn-submit">Enviar</button>
-        </form>
+                <div class="form-field">
+                    <label for="id_rating">Calificación:</label>
+                    <div class="rating-stars" data-rating="{{ form.rating.value }}">
+                        <i class="fa fa-star" data-index="1"></i>
+                        <i class="fa fa-star" data-index="2"></i>
+                        <i class="fa fa-star" data-index="3"></i>
+                        <i class="fa fa-star" data-index="4"></i>
+                        <i class="fa fa-star" data-index="5"></i>
+                    </div>
+                    <input type="hidden" name="rating" id="id_rating" value="{{ form.rating.value }}">
+                </div>
+                <button type="submit" class="btn-submit">Enviar</button>
+            </form>
+        </div>
     </div>
 {% endblock %}
 {% block js %}

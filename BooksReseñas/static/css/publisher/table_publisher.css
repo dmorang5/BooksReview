@@ -70,7 +70,7 @@ h1 {
 .table a {
     color: #4a90e2;
     text-decoration: none;
-    padding: 5px 10px;
+    padding: 10px 2px;
     border-radius: 5px;
     transition: background-color 0.3s;
 }

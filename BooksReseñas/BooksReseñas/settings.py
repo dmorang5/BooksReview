@@ -16,7 +16,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 from django.utils.translation import gettext_lazy as _
 
-
+from decouple import Config, config
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -28,6 +28,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+
+RECAPTCHA_ERROR_MSG = {
+    'required': 'Por favor, complete el reCAPTCHA.',
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,13 +44,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
     'books',
+    'django_recaptcha',
+    'captcha',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -66,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -114,19 +124,21 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
-
 ]
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+
 #PARA HACER LA INTERNACIONALIZACIÓN
-#Idioma
-LANGUAGE_CODE = 'en-us'
-#Zona horaria
-TIME_ZONE = 'UTC'
+LANGUAGE_CODE = 'en-us'  #Idioma
+TIME_ZONE = 'UTC'   #Zona horaria
+
 #Activar internacionalizacion
 USE_I18N = True
+
 #Activar localización
 USE_TZ = True
+
 # Idiomas disponibles
 LANGUAGES = [
     ('en', _('English')),
@@ -135,10 +147,6 @@ LANGUAGES = [
     ('de', _('German')),
 ]
 
-# Configurar rutas de traducciones
-LOCALE_PATHS = [
-    BASE_DIR / 'locale',
-]
 LOGIN_REDIRECT_URL = 'book_list'
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
@@ -148,8 +156,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'kathw647@gmail.com'
-EMAIL_HOST_PASSWORD = 'ezvy qfom dqgb mozy' #contra se saca de google
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') #contra se saca de google
+PASSWORD_RESET_TIMEOUT = 1800 #tiempo valido del corre (mediahora)
+
+# Configuración del asunto del correo de restablecimiento de contraseña
+PASSWORD_RESET_SUBJECT = 'Solicitud de restablecimiento de contraseña de su cuenta en BooksReview'
+
+#TIEMPO DE ESPERA, LUEGO DE ESTE TIEMPO SE CIERRA SESION
+SESSION_COOKIE_AGE = 1800 #3600 es una hora, 1800 es media hora
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
@@ -163,3 +180,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+# Define las claves de reCAPTCHA
+RECAPTCHA_PUBLIC_KEY = config('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = config('RECAPTCHA_PRIVATE_KEY')
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+
+#SMS
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER = config('TWILIO_PHONE_NUMBER')

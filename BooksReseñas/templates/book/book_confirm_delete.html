@@ -1,11 +1,19 @@
-{% extends "base.html" %}
-{% block title %}Confirmar Eliminación{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block title %}BooksReview | Confirmar Eliminación{% endblock %}
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/review/delete.css' %}">
+{% endblock %}
 {% block content %}
+    <div class="container">
     <form method="post">
         {% csrf_token %}
-        <p>¿Estás seguro de que quieres eliminar este libro: {{ book.title }}?</p>
-        <input type="submit" value="Eliminar">
-        <a href="{% url 'book_list' %}">Cancelar</a>
+        <h1>Confirmar Eliminación</h1>
+        <p>¿Estás super seguro de que quieres eliminar este libro?</p>
+        <p><strong>Libro:</strong> {{ book.title }}</p>
+        <button type="submit" class="dl-eliminar-btn">Eliminar</button>
+        <a href="{% url 'book_list' %}" class="cancelar-btn">Cancelar</a>
     </form>
-
+    </div>
 {% endblock %}

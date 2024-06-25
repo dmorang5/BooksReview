@@ -37,6 +37,7 @@ class BookForm(forms.ModelForm):
         fields = ['title', 'synopsis', 'year', 'author', 'publishing', 'cover_libro']
         widgets = {
             'year': forms.DateInput(attrs={'type': 'date'}),
+            'synopsis':forms.Textarea(attrs={'class': 'textfield'}),
         }
 
 

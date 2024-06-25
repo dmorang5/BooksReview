@@ -3,6 +3,7 @@
 <html lang="{{ LANGUAGE_CODE }}">
 <head>
     <title>{% block title %}BooksReview | Home{% endblock %}</title>
+    <link rel="icon" href="{% static "img/icon/icon-bookrseviews.png" %}"/>
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <link href="{% static "css/nav.css" %}" rel="stylesheet">
     {% block css %}
@@ -22,15 +23,15 @@
                         <li {% if section == "reseñas" %}class="nav-link"{% endif %}>
                             <a href="{% url "review_list" %}">Reseñas</a>
                         </li>
-                     {% endif %}   
-                     {% if request.user.is_superuser %}
+                    {% endif %}   
+                    {% if request.user.is_superuser %}
                         <li {% if section == "autor" %}class="nav-link"{% endif %}>
                             <a href="{% url "author_list" %}">Autor</a>
                          </li>
                         <li {% if section == "editorial" %}class="nav-link"{% endif %}>
                             <a href="{% url "publisher_list" %}">Editoriales</a>
                         </li>
-                     {% endif %}    
+                    {% endif %}    
                         {% if not request.user.is_superuser %}
                             <li {% if section == "perfil" %}class="nav-link"{% endif %}>
                                 <a href="{% url "profile" %}">Perfil</a>
@@ -61,6 +62,13 @@
             </div>
         </nav>
     </header>
+    {# ESTE HACE UN CUADRITO #}
+    <div class="gtranslate_wrapper"></div>
+    <div></div> 
+    {# ESTE UN GLOBO TERRAQUEO #}
+{#    <div class="gtranslate_wrapper"></div>#}
+{#    <script>window.gtranslateSettings = {"default_language":"es","languages":["es","fr","en","de","it"],"globe_color":"#66aaff","wrapper_selector":".gtranslate_wrapper","flag_size":24,"horizontal_position":"left","vertical_position":"bottom","globe_size":40}</script>#}
+{#    <script src="https://cdn.gtranslate.net/widgets/latest/globe.js" defer></script>#}
     {% if messages %}
          <ul class="messages">
              {% for message in messages %}
@@ -81,4 +89,6 @@
 {% block js %}
 {% endblock %}
 <script src="{% static 'js/nav.js' %}"></script>
+<script>window.gtranslateSettings = {"default_language":"es","native_language_names":true,"languages":["es","fr","en","de","it"],"wrapper_selector":".gtranslate_wrapper"}</script>
+<script src="https://cdn.gtranslate.net/widgets/latest/float.js" defer></script>
 </html>

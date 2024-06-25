@@ -5,22 +5,42 @@
 <title>{% block title %}BooksReview | {{ book.title }}{% endblock %}</title>
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/book/grid.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/review/reviewlist.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
 {% endblock %}
 
 {% block content %}
-<a href="{% url 'book_list' %}">Regresar</a>    
+<main>
+    <a style="text-decoration: none; color: #333; font-weight: bold; display: inline-block; padding: 10px 20px; background-color: #8DA9C4; border-radius: 5px; margin-left: 100px;" href="{% url 'book_list'%}">Regresar</a>    
     <div class="container">
         <h1>{{ book.title }}</h1>
-        <p><strong>Autor:</strong> {{ book.author }}</p>
-        <p><strong>Sinopsis:</strong> {{ book.synopsis }}</p>
-        <p><strong>Fecha:</strong> {{ book.year }}</p>
-        <p><strong>Editorial:</strong> {{ book.publishing }}</p>
-        <img src="{{ book.cover_libro.url }}" alt="{{ book.title }} cover" style="max-width: 100px; border-radius: 10px">
-        <a href="{% url 'add_review' book.id%}" class="add-review-btn">Añadir reseña</a>
+        <div class="details" style="display: flex; align-items: flex-start;gap: 50px;">
+            <div class="info" style="flex: 1;">
+                <p><strong>Autor:</strong> {{ book.author }}</p>
+                <p><strong>Sinopsis:</strong> {{ book.synopsis }}</p>
+                <p><strong>Año:</strong> {{ book.year|date:"Y" }}</p>
+                <p><strong>Editorial:</strong> {{ book.publishing }}</p>
+                <p><strong>Promedio de Calificación:</strong> {{ average_rating|default:"No hay calificaciones" }}</p>
+            </div>
+            <div class="info-cover">
+                <img src="{{ book.cover_libro.url }}" alt="{{ book.title }} cover"
+                     style="max-width: 500px; border-radius: 10px;">
+            </div>
+        </div>
+        <div class="controls" style="margin-top: 20px;">
+            <a href="{% url 'add_review' book.id %}" class="button"
+               style="color: white; 
+                      background-color: #8DA9C4; 
+                      border: none; 
+                      cursor: pointer; 
+                      padding: 10px 20px; 
+                      text-decoration: none; 
+                      border-radius: 5px; 
+                      display: inline-block;">
+                Añadir reseña
+            </a>
+        </div>
         <h2>Reseñas</h2>
         <div class="review-list">
             {% for review in reviews %}
@@ -39,6 +59,7 @@
             {% endfor %}
         </div>
     </div>
+</main>    
 {% endblock %}
 {% block js %}
     <div class="fondo_transparente" id="ventanaModal">

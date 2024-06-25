@@ -1,7 +1,7 @@
 body {
     margin:0;
     padding:0;
-
+    font-family: 'Roboto', sans-serif;
 }
 
 main{
@@ -278,4 +278,10 @@ img.user-detail {
     color:#ccc;
 }
 
-/*NAV*/
+/*API GOOGLE*/
+.translate-widget-container .goog-te-banner-frame {
+    display: none !important;
+}
+.VIpgJd-ZVi9od-ORHb{
+    display: none !important;
+}

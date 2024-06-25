@@ -43,19 +43,21 @@ class AuthorListView(ListView):
         return self.render_to_response(context)
 
 @method_decorator(login_required, name='dispatch')
-@user_passes_test(is_admin)
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class AuthorCreateView(CreateView):
     model = Author
     template_name = 'author/author_form.html'
     fields = ['name', 'description', 'cover_image']
 
 @method_decorator(login_required, name='dispatch')
-@user_passes_test(is_admin)
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class AuthorUpdateView(UpdateView):
     model = Author
     template_name = 'author/author_form.html'
     fields = ['name', 'description', 'cover_image']
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class AuthorDeleteView(DeleteView):
     model = Author
     template_name = 'author/author_confirm_delete.html'
@@ -90,26 +92,27 @@ class PublishingListView(ListView):
         return self.render_to_response(context)
 
 @method_decorator(login_required, name='dispatch')
-@user_passes_test(is_admin)
+@method_decorator(user_passes_test(is_admin), name='dispatch')
 class PublishingCreateView(CreateView):
     model = Publishing
     template_name = 'publishing/publishing_form.html'
     fields = ['name', 'description', 'logo']
 
 @method_decorator(login_required, name='dispatch')
-@user_passes_test(is_admin)
+@method_decorator(user_passes_test(is_admin), name='dispatch')
 class PublishingUpdateView(UpdateView):
     model = Publishing
     template_name = 'publishing/publishing_form.html'
     fields = ['name', 'description', 'logo']
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(user_passes_test(is_admin), name='dispatch')
 class PublishingDeleteView(DeleteView):
     model = Publishing
     template_name = 'publishing/publishing_confirm_delete.html'
-    success_url = reverse_lazy('publishing-list')
+    success_url = reverse_lazy('publisher_list')
 
 # Vistas para Book
-
 @method_decorator(login_required, name='dispatch')
 class BookListView(ListView):
     model = Book
@@ -169,8 +172,7 @@ class BookUpdateView(UpdateView):
 class BookDeleteView(DeleteView):
     model = Book
     template_name = 'book/book_confirm_delete.html'
-    success_url = reverse_lazy('book-list')
-
+    success_url = reverse_lazy('book_list')
 
 
 # VISTA RESEÑAS
@@ -187,17 +189,11 @@ class AddReviewView(FormView):
         review.pub_date = timezone.now()
         review.save()
         return redirect('book_list')
-    #
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['form'] = self.form_class()
-    #     return context
-
 
 class UpdateReviewView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewForm
-    template_name = 'Review/update_review.html'
+    template_name = 'Review/add_review.html'
 
     def get_object(self, queryset=None):
         book_id = self.kwargs['book_id']
@@ -249,5 +245,7 @@ class BookDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        book = self.get_object()
         context['reviews'] = Review.objects.filter(book=self.object)
+        context['average_rating'] = book.average_rating()
         return context

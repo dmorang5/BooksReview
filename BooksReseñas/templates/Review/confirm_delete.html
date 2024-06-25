@@ -2,7 +2,9 @@
 {% load static %}
 {% load custom_tags %}
 {% block title %}BooksReview | Confirmar Eliminación{% endblock %}
-
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/review/delete.css' %}">
+{% endblock %}
 {% block content %}
     <div class="container">
         <h1>Confirmar Eliminación</h1>

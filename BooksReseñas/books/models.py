@@ -66,6 +66,16 @@ class Book(BaseModel):
             self.cover_image = 'books/default_cover.jpg'  # Ruta de la imagen por defecto
         super(Book, self).save(*args, **kwargs)
 
+    def rating_stars(self):
+        rating = self.average_rating()
+        if rating is not None:
+            full_stars = int(rating)
+            half_stars = round(rating - full_stars)
+            empty_stars = 5 - full_stars - half_stars
+            stars = "★" * full_stars + "½" * half_stars + "☆" * empty_stars
+            return stars
+        return ''
+
     def __str__(self):
         return f'{self.title} {self.year}'
 
@@ -81,5 +91,5 @@ class Review(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     pub_date = models.DateTimeField('date published', auto_now_add=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    comment = models.CharField(max_length=200)
+    comment = models.TextField()
     rating = models.IntegerField(choices=RATING_CHOICES)

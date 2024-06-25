@@ -3,7 +3,7 @@
 {% load static %}
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/book/grid.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
+{#    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">#}
     <link rel="stylesheet" type="text/css" href="{% static 'css/formularios/form_styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/book/table_books.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/campos_form.css' %}">
@@ -23,6 +23,7 @@
                         <div class="details">
                             <h3><strong>{{ book.title }}</strong> </h3>
                             <p><strong>Autor:</strong> {{ book.author }}</p>
+                            <p class="rating">{{ book.rating_stars|safe }}</p>
                             <a style="background-color: #8DA9C4" href="{% url 'book_detail' book.id %}" class="add-review-btn">Ver más</a>
                         </div>
                     </div>
@@ -85,12 +86,13 @@
     {% endif %}
 {% endblock %}
 {% block js %}
+    <!-- Modal para agregar/actualizar libro -->
     <div class="fondo_transparente" id="ventanaModal">
-        <div class="modal">
+        <div class="modal" style="height: 620px!important;">
             <div class="modal_cerrar" id="btnCerrarModal">
                 <span>x</span>
             </div>
-            <div class="modal_titulo">Libros</div>
+            <div class="modal_titulo" style="top: 50% !important;">Libros</div>
             <form id="authorForm" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="hidden" name="book_id" id="book_id">
@@ -124,15 +126,13 @@
             </form>
         </div>
     </div>
-    <!-- Modal para agregar/actualizar libro -->
-    
-    
     <!-- Modal para eliminar libro -->
     <div class="fondo_transparente" id="ventanaModalEliminar">
-        <div class="modal">
-            <div class="modal_titulo">¿Estás seguro de eliminar este libro?</div>
+        <div class="modal" style="top: 35%;!important;height: 300px;" ><br>
+            <div class="modal_titulo" style="color: #8DA9C4">Eliminar</div>
+            <div class="modal_mensaje">¿Estás seguro de eliminar este libro?</div>
             <div class="modal_botones">
-                <a href="#" id="btnEliminarLibro" class="btnEliminarLibro">Eliminar</a>
+                <a href="#" id="btnEliminarLibro" class="btnEliminar">Eliminar</a>
                 <button id="btnCancelarEliminar" class="boton">Cancelar</button>
             </div>
         </div>

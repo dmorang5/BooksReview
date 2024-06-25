@@ -1,34 +1,54 @@
-
-from django.http import HttpResponse, request, HttpResponseNotAllowed
-from django.shortcuts import render, redirect
+import requests
+import json
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 
+from BooksReseñas import settings
 from books.models import Review
-from .forms import LoginForm, UserRegistrationForm, \
+from .forms import LoginForm,  \
  UserEditForm, ProfileEditForm, UserRegistrationForm
 from django.contrib.auth.decorators import login_required
 from .models import Profile
 from django.contrib import messages
 from datetime import date
 
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(request, username=cd['username'], password=cd['password'])
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse('Autenticado exitosamente')
+            # Verificar reCAPTCHA
+            recaptcha_response = request.POST.get('g-recaptcha-response')
+            if not recaptcha_response:
+                messages.error(request, 'Debes completar el reCAPTCHA.')
+                return HttpResponse('Debe completar el reCAPTCHA.')
+
+            # Validar reCAPTCHA
+            data = {
+                'secret': settings.RECAPTCHA_PRIVATE_KEY,
+                'response': recaptcha_response
+            }
+            response = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+            result = response.json()
+            if result['success']:
+                cd = form.cleaned_data
+                user = authenticate(request, username=cd['username'], password=cd['password'])
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        return HttpResponse('Autenticado exitosamente')
+                    else:
+                        return HttpResponse('Cuenta deshabilitada')
                 else:
-                    return HttpResponse('Cuenta deshabilitada')
+                    return HttpResponse('Credenciales inválidas')
             else:
-                return HttpResponse('Ingreso invalido')
+                return HttpResponse('Falló la verificación de reCAPTCHA')
     else:
         form = LoginForm()
-    return render(request, 'account/login.html', {'form': form})
+    return render(request, 'registration/login.html', {'form': form})
 
 def calculate_age(born):
     today = date.today()
@@ -100,3 +120,4 @@ class CustomLogoutView(View):
 
     def get(self, request, *args, **kwargs):
         return HttpResponseNotAllowed(['POST'])
+

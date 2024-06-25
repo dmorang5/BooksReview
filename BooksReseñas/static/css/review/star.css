@@ -1,12 +1,89 @@
+.review-container {
+    z-index: 9999;
+    margin-top: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.formu-review {
+    width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formu-review h2 {
+    color: #8DA9C4;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-field {
+    margin-bottom: 15px;
+}
+
+.btn-submit {
+    background-color: #8DA9C4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    background-color: #6b849d;
+}
+
 .rating-stars {
     display: inline-block;
     font-size: 24px;
     cursor: pointer;
+    margin-top: 30px; /* Añadido para separar las estrellas del campo de rating */
+    margin-left: 30px;
+    margin-right: 30px;
 }
+
 .rating-stars .fa-star {
     color: #ccc;
     transition: color 0.3s;
+    margin-right: 5px;
 }
+
 .rating-stars .fa-star.selected {
     color: gold;
+}
+
+/* Estilo para el campo de comentario */
+.review-container input[type="text"],
+.review-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Para que el padding no incremente el ancho */
+    font-size: 16px;
+}
+
+/* Estilo para el botón de enviar */
+.review-container button {
+    background-color: #8DA9C4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.review-container button:hover {
+    background-color: #6b849d;
 }

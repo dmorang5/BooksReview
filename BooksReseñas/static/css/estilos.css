@@ -3,54 +3,73 @@ body {
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
-}
-/* estilos.css */
-.main{
     z-index: 9999;
     margin-top: 60px;
 }
-/* Estilos para el formulario de agregar reseña */
-.form-field {
+main{
+}
+/*CAMBIAR CONTRASEÑA*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.change-password-container {
     margin-bottom: 20px;
 }
 
-.form-field label {
+.change-password-container h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.change-password-container p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.change-password-form .form-field {
+    margin-bottom: 15px;
+}
+
+.change-password-form label {
     display: block;
     font-weight: bold;
+    margin-bottom: 5px;
 }
 
-.form-field input[type="text"],
-.form-field input[type="number"],
-.form-field select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
+.change-password-form input[type="password"] {
+    width: 95%;
+    padding: 8px;
     font-size: 16px;
-}
-
-.form-field textarea {
-    width: 100%;
-    height: 100px;
-    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
+    border-radius: 3px;
 }
 
-.form-field button {
+.btn-submit {
+    display: inline-block;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #8DA9C4;
     color: #fff;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 3px;
     font-size: 16px;
+    cursor: pointer;
 }
 
-.form-field button:hover {
-    background-color: #0056b3;
+.btn-submit:hover {
+    background-color: #8DA9C4;
 }
 

@@ -4,6 +4,7 @@
 {% block css %}
     <link href="{% static "css/login/login.css" %}" rel="stylesheet">
     <link href="{% static "css/login/normalize.css" %}" rel="stylesheet">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
 {% block nav %}{% endblock %}
 {% block content %}
@@ -13,7 +14,7 @@
             {% csrf_token %}
             <div class="input-group">
                 <div class="texto-formulario">
-                    <h2>BooksReviews</h2>
+                    <center><img src="{% static 'img/icon/BooksReviews_20240610_114726_0000.png' %}" ></center>
                     <p>Powered by PANAS S.A</p>
                 </div>
                 <div class="input">
@@ -26,6 +27,9 @@
                 </div>
                 <div class="password-olvidada">
                     <a href="{% url "password_reset" %}">¿Olvidaste tu contraseña?</a>
+                </div>
+                <div class="input">
+                    {% comment %}<div class="g-recaptcha" data-sitekey="6LfM5_0pAAAAAMhrvU_2TT_2_zkyge5zAV2Hpsz6" data-action="login"></div>{% endcomment %}
                 </div>
                 <div class="input">
                     <input type="submit" value="Login">

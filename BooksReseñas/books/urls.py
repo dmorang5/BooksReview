@@ -17,13 +17,13 @@ urlpatterns = [
      path('delete_review/<int:book_id>/', DeleteReviewView.as_view(), name='delete_review'),
      #AUTOR
      path('author_list/', AuthorListView.as_view(), name='author_list'),
-     path('author_create/', AuthorCreateView, name='author_create'),
-     path('author_update/<int:pk>/', AuthorUpdateView, name='author_update'),
+     path('author_create/', AuthorCreateView.as_view(), name='author_create'),
+     path('author_update/<int:pk>/', AuthorUpdateView.as_view(), name='author_update'),
      path('author_delete/<int:pk>/', AuthorDeleteView.as_view(), name='author_delete'),
      #PUBLISHING/EDITORIAL
      path('publisher_list/', PublishingListView.as_view(), name='publisher_list'),
-    path('publisher_create/', PublishingCreateView, name='publisher_create'),
-    path('publisher_update/<int:pk>/', PublishingUpdateView, name='publisher_update'),
+    path('publisher_create/', PublishingCreateView.as_view(), name='publisher_create'),
+    path('publisher_update/<int:pk>/', PublishingUpdateView.as_view(), name='publisher_update'),
     path('publisher_delete/<int:pk>/', PublishingDeleteView.as_view(), name='publisher_delete'),
      #LIBRO
     path('book_delete/<int:pk>/', BookDeleteView.as_view(), name='book_delete'),

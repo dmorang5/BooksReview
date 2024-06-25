@@ -3,15 +3,41 @@
 
 {% block title %}BooksReview | Editar Perfil{% endblock %}
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/estilos.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/profile/profile.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile/edit.css' %}">
 {% endblock %}
 {% block content %}
-    <h1>Editar Perfil</h1>
-    <form method="post" enctype="multipart/form-data">
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        {% csrf_token %}
-        <p><input type="submit" value="Save changes"></p>
-    </form>
+    <a style="text-decoration: none; color: white; font-weight: bold; display: inline-block; padding: 10px 20px; background-color: #8DA9C4; border-radius: 5px; margin-left: 100px; margin-top: 25px" href="{% url 'profile' %}">Regresar</a>
+    <div class="container">
+        <h1>Editar Perfil</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="controls">
+                <label for="name">Nombre</label>
+                {{ user_form.first_name }}
+            </div>
+            <div class="controls">
+                <label for="apellido">Apellido</label>
+                {{ user_form.last_name }}
+            </div>
+            <div class="controls">
+                <label for="email">Email</label>
+                {{ user_form.email }}
+            </div>
+            <div class="controls">
+                <label for="birth">Fecha de Nacimiento</label>
+                {{ profile_form.date_of_birth }}
+            </div>
+            <div class="controls">
+                <label for="photo">Foto de Perfil</label>
+                {{ profile_form.photo }}
+            </div>
+            <div class="controls">
+                <label for="cover_photo">Portada</label>
+                {{ profile_form.cover_photo }}
+            </div>
+            <div class="group-btn">
+                <p><input type="submit" value="Guardar"></p>
+            </div>
+        </form>
+    </div>
 {% endblock %}

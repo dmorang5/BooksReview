@@ -4,6 +4,7 @@ main{
     margin-top: 60px;
 }
 .book-grid {
+    margin: 50px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -70,28 +71,26 @@ main{
 }
 
 
-/* Media queries para hacer el diseño responsive */
-@media screen and (max-width: 768px) {
-    main{
-        z-index:99999;
-        margin-top: 120px;  /*Es para que se vea y no lo tape el nav pero aun tapa;(*/
-    }
-    .book-item {
-        flex: 0 0 calc(50% - 20px);
-        max-width: calc(50% - 20px);
-    }
-
+/*ESTRELLAS*/
+.rating {
+    font-size: 24px;
+    color: #FFD700;
 }
 
-@media screen and (max-width: 480px) {
-    main{
-        z-index:99999;
-        margin-top: 100px;
-    }
+.rating .half-star {
+    color: #FFD700;
+}
+/*media*/
+@media screen and (max-width: 1024px) {
     .book-item {
-        flex: 0 0 100%;
-        max-width: 100%;
+        flex: 1 1 calc(50% - 40px);  /* Dos tarjetas por fila */
+        max-width: calc(50% - 40px);
     }
-
 }
 
+@media screen and (max-width: 724px) {
+    .book-item {
+        flex: 1 1 calc(100% - 40px);  /* Una tarjeta por fila */
+        max-width: calc(100% - 40px);
+    }
+}
