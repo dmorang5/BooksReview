@@ -11,6 +11,13 @@
     <div class="review-container">
         <div class="formu-review">
             <h2>Agregar Reseña</h2>
+            {% if messages %}
+                <ul>
+                  {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+            {% endif %}
             <form method="post" class="review-form">
                 {% csrf_token %}
                 <div class="form-field">

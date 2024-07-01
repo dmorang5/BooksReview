@@ -1,6 +1,7 @@
 import requests
 import json
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
+
+from django.http import HttpResponse, HttpResponseNotAllowed, BadHeaderError
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
 
@@ -13,20 +14,19 @@ from .models import Profile
 from django.contrib import messages
 from datetime import date
 
-from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+
+from django.shortcuts import render, redirect
 
 def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            # Verificar reCAPTCHA
             recaptcha_response = request.POST.get('g-recaptcha-response')
             if not recaptcha_response:
                 messages.error(request, 'Debes completar el reCAPTCHA.')
-                return HttpResponse('Debe completar el reCAPTCHA.')
+                return redirect('login')
 
-            # Validar reCAPTCHA
             data = {
                 'secret': settings.RECAPTCHA_PRIVATE_KEY,
                 'response': recaptcha_response
@@ -39,13 +39,16 @@ def user_login(request):
                 if user is not None:
                     if user.is_active:
                         login(request, user)
-                        return HttpResponse('Autenticado exitosamente')
+                        messages.success(request, 'Autenticado exitosamente.')
+                        return redirect('home')
                     else:
-                        return HttpResponse('Cuenta deshabilitada')
+                        messages.error(request, 'Cuenta deshabilitada.')
                 else:
-                    return HttpResponse('Credenciales inválidas')
+                    messages.error(request, 'Credenciales inválidas.')
             else:
-                return HttpResponse('Falló la verificación de reCAPTCHA')
+                messages.error(request, 'Falló la verificación de reCAPTCHA.')
+        else:
+            messages.error(request, 'Formulario no válido.')
     else:
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})

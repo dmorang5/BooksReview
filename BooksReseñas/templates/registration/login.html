@@ -8,7 +8,7 @@
 {% endblock %}
 {% block nav %}{% endblock %}
 {% block content %}
-     <div class="contenedor-formulario contenedor">
+    <div class="contenedor-formulario contenedor">
         <div class="imagen-formulario"></div>
         <form method="post" class="formulario">
             {% csrf_token %}
@@ -17,6 +17,13 @@
                     <center><img src="{% static 'img/icon/BooksReviews_20240610_114726_0000.png' %}" ></center>
                     <p>Powered by PANAS S.A</p>
                 </div>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 <div class="input">
                     <label for="usuario">Usuario</label>
                     {{ form.username }}
@@ -29,23 +36,20 @@
                     <a href="{% url "password_reset" %}">¿Olvidaste tu contraseña?</a>
                 </div>
                 <div class="input">
-                    {% comment %}<div class="g-recaptcha" data-sitekey="6LfM5_0pAAAAAMhrvU_2TT_2_zkyge5zAV2Hpsz6" data-action="login"></div>{% endcomment %}
+                    {# <div class="g-recaptcha" data-sitekey="6LfM5_0pAAAAAMhrvU_2TT_2_zkyge5zAV2Hpsz6" data-action="login"></div> #}
                 </div>
                 <div class="input">
                     <input type="submit" value="Login">
                 </div>
                 <div class="password-olvidada">
-                     <a href="{% url "register" %}">No tienes cuenta?</a><a href="{% url "register" %}">Registrate</a>
+                    <a href="{% url "register" %}">No tienes cuenta?</a><a href="{% url "register" %}">Registrate</a>
                 </div>
-
             </div>
         </form>
     </div>
 {% endblock %}
 {% block js %}
     <script>
-        {% if form.errors %}
-            alert("Usuario o contraseña incorrectos. Intenta de nuevo;)");
-        {% endif %}
+        // No es necesario usar alertas de JavaScript para mostrar errores
     </script>
 {% endblock %}

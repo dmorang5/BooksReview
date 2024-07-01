@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.messages import constants as messages
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 from django.utils.translation import gettext_lazy as _
@@ -130,8 +132,8 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
 #PARA HACER LA INTERNACIONALIZACIÓN
-LANGUAGE_CODE = 'en-us'  #Idioma
-TIME_ZONE = 'UTC'   #Zona horaria
+LANGUAGE_CODE = 'es'  #Idioma
+TIME_ZONE = 'America/Guayaquil'   #Zona horaria
 
 #Activar internacionalizacion
 USE_I18N = True
@@ -159,6 +161,10 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD') #contra se saca de google
 PASSWORD_RESET_TIMEOUT = 1800 #tiempo valido del corre (mediahora)
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# Configuración de plantilla de correo para restablecimiento de contraseña
+PASSWORD_RESET_EMAIL_TEMPLATE = 'registration/password_reset_email.html'
 
 # Configuración del asunto del correo de restablecimiento de contraseña
 PASSWORD_RESET_SUBJECT = 'Solicitud de restablecimiento de contraseña de su cuenta en BooksReview'
@@ -191,3 +197,11 @@ SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID')
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN')
 TWILIO_PHONE_NUMBER = config('TWILIO_PHONE_NUMBER')
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'debug',
+    messages.INFO: 'info',
+    messages.SUCCESS: 'success',
+    messages.WARNING: 'warning',
+    messages.ERROR: 'error',
+}

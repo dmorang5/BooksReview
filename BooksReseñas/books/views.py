@@ -1,5 +1,4 @@
-from django.template import context
-from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
 from .models import Author, Publishing, Book, Review
@@ -10,6 +9,7 @@ from .forms import ReviewForm, AuthorForm, PublisherForm, BookForm
 from django.utils import timezone
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import MultipleObjectsReturned
+from django.contrib import messages
 
 def is_admin(user):
     return user.is_superuser
@@ -182,6 +182,12 @@ class AddReviewView(FormView):
 
     def form_valid(self, form):
         book_id = self.kwargs['book_id']
+        user = self.request.user
+
+        if Review.objects.filter(book_id=book_id, user=user).exists():
+            messages.error(self.request, "Ya haz reseñado este libro.")
+            return self.form_invalid(form)
+
         book = get_object_or_404(Book, id=book_id)
         review = form.save(commit=False)
         review.user = self.request.user

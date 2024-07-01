@@ -16,7 +16,7 @@
                 <div class="book-item">
                     <div class="book-details">
                         {% if book.cover_libro %}
-                            <img src="{{ book.cover_libro.url }}" alt="{{ book.title }}">
+                            <img src="{{ book.cover_libro.url }}" alt="{{ book.title }}" style="border-radius: 10px">
                         {% else %}
                             Sin imagen de portada
                         {% endif %}
@@ -42,7 +42,7 @@
                 <table class="book-table">
                     <thead>
                         <tr>
-                            <th>Título</th>
+                            <th>Nombre</th>
                             <th>Sinopsis</th>
                             <th>Año</th>
                             <th>Autor</th>
